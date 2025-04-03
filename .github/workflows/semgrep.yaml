@@ -9,6 +9,8 @@ jobs:
   semgrep_scan:
     name: semgrep/ci
     runs-on: ubuntu-latest
+    container:
+      image: returntocorp/semgrep
     permissions:
       security-events: write
       actions: read
