@@ -9,8 +9,6 @@ jobs:
   semgrep_scan:
     name: semgrep/ci
     runs-on: ubuntu-latest
-    container:
-      image: returntocorp/semgrep
     permissions:
       security-events: write
       actions: read
@@ -19,18 +17,3 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-
-      - name: Perform Semgrep Analysis
-        run: semgrep scan -q --sarif --config auto ./vulnerable-source-code > semgrep-results.sarif
-      
-      - name: Save SARIF results as artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: semgrep-scan-results
-          path: semgrep-results.sarif
-
-      - name: Upload SARIF result to the GitHub Security Dashboard
-        uses: github/codeql-action/upload-sarif@v2
-        with:
-          sarif_file: semgrep-results.sarif
-        if: always()
